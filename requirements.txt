@@ -1,0 +1,10 @@
+pinecone
+langchain
+langchain-google-genai
+python-dotenv
+gradio
+fastapi
+uvicorn
+pydantic
+asyncio
+pytz
