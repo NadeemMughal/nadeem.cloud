@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muhammad Nadeem Virtual Assistant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+        }
+        #navbar {
+            background-color: #ffffff;
+            padding: 4vw;
+            border-right: 1px solid #e0e0e0;
+            min-width: 200px;
+            flex: 1;
+            text-align: center;
+            overflow: auto;
+        }
+        #navbar h1 {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin: 1rem 0;
+        }
+        #navbar h2 {
+            font-size: 1rem;
+            color: #7f8c8d;
+            margin: 0.5rem 0;
+        }
+        #navbar p {
+            font-size: 0.9rem;
+            color: #34495e;
+            margin: 1rem 0;
+        }
+        #navbar a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        #navbar a:hover {
+            text-decoration: underline;
+        }
+        #navbar .button {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 0.5rem 1rem;
+            margin: 0.5rem 0;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            border: none;
+            cursor: pointer;
+        }
+        #navbar .button:hover {
+            background-color: #2980b9;
+        }
+        .profile-description {
+            text-align: justify;
+            margin: 1rem 0;
+        }
+        .email-display {
+            text-align: justify;
+            overflow-wrap: break-word;
+            max-width: 100%;
+            padding: 0.5rem;
+            background-color: #f1f5f9;
+            border-radius: 5px;
+            margin: 0.5rem 0;
+            color: #34495e;
+        }
+        #header {
+            background-color: #3498db;
+            color: white;
+            padding: 2vw;
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            border-bottom: 1px solid #2980b9;
+        }
+        #footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1.5vw;
+            text-align: center;
+            width: 100%;
+        }
+        #footer a {
+            color: #3498db;
+            margin: 0 1vw;
+            text-decoration: none;
+        }
+        #footer a:hover {
+            text-decoration: underline;
+        }
+        .chatbot-container {
+            flex: 3;
+            min-width: 300px;
+            overflow: auto;
+        }
+        .chat-container {
+            max-height: calc(100vh - 280px);
+            overflow-y: auto;
+            scroll-behavior: smooth;
+            padding: 1rem;
+            background-color: #f1f5f9;
+            border-radius: 5px;
+        }
+        .chat-bubble {
+            max-width: 80%;
+            margin-bottom: 1rem;
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
+            line-height: 1.5;
+        }
+        .user-bubble {
+            background-color: #d1e7ff;
+            margin-left: auto;
+            border-bottom-right-radius: 0;
+        }
+        .assistant-bubble {
+            background-color: #e8e8e8;
+            margin-right: auto;
+            border-bottom-left-radius: 0;
+        }
+        .assistant-bubble.initial-message {
+            font-size: 1.1rem;
+            border: 2px solid #3498db;
+            animation: fadeIn 1s ease-in;
+        }
+        .assistant-bubble ul {
+            list-style-type: disc;
+            margin: 0.5rem 0;
+            padding-left: 1.5rem;
+        }
+        .assistant-bubble li {
+            margin-bottom: 0.25rem;
+        }
+        .assistant-bubble strong {
+            font-weight: 700;
+        }
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 768px) {
+            #navbar {
+                display: none;
+            }
+            #header {
+                font-size: 1.4rem;
+                padding: 1rem;
+            }
+            #footer {
+                position: static;
+                padding: 1rem;
+            }
+            .chatbot-container {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="header">Muhammad Nadeem Virtual Assistant</div>
+    <div class="flex">
+        <div id="navbar">
+            <h1>Muhammad Nadeem</h1>
+            <h2>AI/ML Engineer</h2>
+            <p class="profile-description">Passionate to building innovative AI solutions with expertise in deep learning, LLM's and full-stack AI systems. Started as AI/ML Engineer on November 1, 2024.</p>
+            <a href="https://www.linkedin.com/in/muhammad-nadeem-ml-engineer-researcher/" target="_blank" class="button">LinkedIn</a>
+            <a href="https://github.com/NadeemMughal" target="_blank" class="button">GitHub</a>
+            <p>Published an article on advanced AI techniques.</p>
+            <a href="https://arxiv.org/abs/2412.18199" target="_blank" class="button">Read Article</a>
+            <p class="email-display"><strong>nadeem.dev51@gmail.com</strong></p>
+        </div>
+        <div class="chatbot-container p-4">
+            <div class="chat-container mb-4">
+                <div id="chatArea"></div>
+            </div>
+            <textarea id="queryInput" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" rows="3" placeholder="Ask about Muhammad Nadeem's expertise, projects, or experience..."></textarea>
+            <button id="sendButton" class="mt-2 w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Send</button>
+            <div id="loading" class="hidden mt-2 flex justify-center">
+                <div class="spinner"></div>
+                <span class="ml-2 text-gray-500">Generating response...</span>
+            </div>
+        </div>
+    </div>
+    <div id="footer">
+        Connect with me:
+        <a href="https://www.linkedin.com/in/muhammad-nadeem-ml-engineer-researcher/" target="_blank">LinkedIn</a> |
+        <a href="https://github.com/NadeemMughal" target="_blank">GitHub</a> |
+        <a href="mailto:nadeem.dev51@gmail.com">Contact</a>
+    </div>
+
+    <script>
+        // Generate or retrieve session ID
+        let sessionId = localStorage.getItem('sessionId');
+        if (!sessionId) {
+            sessionId = crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2);
+            localStorage.setItem('sessionId', sessionId);
+        }
+
+        // Clear session ID on page refresh
+        window.addEventListener('beforeunload', () => {
+            localStorage.removeItem('sessionId');
+        });
+
+        // Get DOM elements
+        const queryInput = document.getElementById('queryInput');
+        const sendButton = document.getElementById('sendButton');
+        const chatArea = document.getElementById('chatArea');
+        const loadingDiv = document.getElementById('loading');
+
+        // Function to parse plain bullet points and bold text
+        function parseResponse(content) {
+            // Replace newlines with <br>
+            let formatted = content.replace(/\n/g, '<br>');
+
+            // Convert plain bullet points (e.g., "- Item") to HTML <ul><li>
+            formatted = formatted.replace(/^- (.+?)(?=<br>|$)/gm, '<li>$1</li>');
+            formatted = formatted.replace(/(<li>.+<\/li>)/g, '<ul>$1</ul>');
+
+            // Convert **bold** to <strong>
+            formatted = formatted.replace(/\*\*([^\*]+)\*\*/g, '<strong>$1</strong>');
+
+            return formatted;
+        }
+
+        // Function to add chat message
+        function addChatMessage(content, isUser = false, responseTime = null, isInitial = false) {
+            const bubble = document.createElement('div');
+            bubble.className = `chat-bubble ${isUser ? 'user-bubble' : 'assistant-bubble'}${isInitial ? ' initial-message' : ''}`;
+            bubble.innerHTML = isUser ? content.replace(/\n/g, '<br>') : parseResponse(content);
+            if (responseTime !== null) {
+                const timeDiv = document.createElement('div');
+                timeDiv.className = 'text-xs text-gray-500 mt-1';
+                timeDiv.textContent = `Response time: ${responseTime.toFixed(2)} seconds`;
+                bubble.appendChild(timeDiv);
+            }
+            chatArea.appendChild(bubble);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        // Display initial message on page load
+        window.addEventListener('load', () => {
+            const initialMessage = "I am the Virtual Assistant of Muhammad Nadeem. How can I help you today? Would you like to know about his technology stack, experience, or projects?";
+            addChatMessage(initialMessage, false, null, true);
+        });
+
+        // Handle submit
+        async function submitMessage() {
+            const query = queryInput.value.trim();
+            if (!query) {
+                alert('Please enter a query.');
+                return;
+            }
+
+            // Add user message to chat
+            addChatMessage(query, true);
+            queryInput.value = '';
+
+            // Show loading indicator
+            loadingDiv.classList.remove('hidden');
+
+            try {
+                const startTime = Date.now();
+                const response = await fetch('http://127.0.0.1:8000/query', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'text/plain',
+                    },
+                    body: JSON.stringify({ query, session_id: sessionId })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                // Create a single chat bubble for the assistant's response
+                const bubble = document.createElement('div');
+                bubble.className = 'chat-bubble assistant-bubble';
+                chatArea.appendChild(bubble);
+                let accumulatedResponse = '';
+
+                // Handle streaming response
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) {
+                        const endTime = Date.now();
+                        const responseTime = (endTime - startTime) / 1000;
+                        // Update the bubble with the final parsed content and response time
+                        bubble.innerHTML = parseResponse(accumulatedResponse);
+                        const timeDiv = document.createElement('div');
+                        timeDiv.className = 'text-xs text-gray-500 mt-1';
+                        timeDiv.textContent = `Response time: ${responseTime.toFixed(2)} seconds`;
+                        bubble.appendChild(timeDiv);
+                        chatArea.scrollTop = chatArea.scrollHeight;
+                        break;
+                    }
+                    const chunk = decoder.decode(value, { stream: true });
+                    if (chunk) {
+                        accumulatedResponse += chunk;
+                        // Update the bubble with the current accumulated response
+                        bubble.innerHTML = parseResponse(accumulatedResponse);
+                        chatArea.scrollTop = chatArea.scrollHeight;
+                    }
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                addChatMessage(`Error: ${error.message}`);
+            } finally {
+                loadingDiv.classList.add('hidden');
+            }
+        }
+
+        // Event listeners
+        sendButton.addEventListener('click', submitMessage);
+        queryInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                submitMessage();
+            }
+        });
+    </script>
+</body>
+</html>
